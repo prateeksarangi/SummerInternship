@@ -1,7 +1,7 @@
 import numpy as np
 import argparse
 import cv2
-
+import json
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--image", required=True,
@@ -27,6 +27,11 @@ print("[INFO] computing object detections...")
 net.setInput(blob)
 detections = net.forward()
 
+open('data.csv', 'w')
+
+with open('data.csv', 'a') as outfile:
+	outfile.write("\"Class\", \"Accuracy\" \n")
+
 for i in np.arange(0, detections.shape[2]):
 	confidence = detections[0, 0, i, 2]
 
@@ -35,7 +40,18 @@ for i in np.arange(0, detections.shape[2]):
 		box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
 		(startX, startY, endX, endY) = box.astype("int")
 
+		classtype = CLASSES[idx]
+		conf = confidence * 100
 		label = "{}: {:.2f}%".format(CLASSES[idx], confidence * 100)
+		
+
+		with open('data.csv', 'a') as outfile:
+			json.dump(classtype, outfile)
+			outfile.write(',')
+			json.dump(conf, outfile)
+			outfile.write('\n')
+
+
 		print("[INFO] {}".format(label))
 		cv2.rectangle(image, (startX, startY), (endX, endY),
 			COLORS[idx], 2)
@@ -45,6 +61,3 @@ for i in np.arange(0, detections.shape[2]):
 
 cv2.imshow("Output", image)
 cv2.waitKey(0)
-
-
-print(label)
