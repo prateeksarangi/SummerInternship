@@ -23,3 +23,7 @@ alias python=python3
 echo "====================================================================================="
 echo "Running the program..."
 python ObjectDetection.py -i "$path"
+
+echo "====================================================================================="
+echo "Obtaining informatioin..."
+python ReadData.py

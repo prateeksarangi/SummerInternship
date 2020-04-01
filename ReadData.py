@@ -3,7 +3,7 @@ import pandas as pd
 
 file = r'data.csv'
 df = pd.read_csv(file)
-print(df)
+#print(df)
 
 
 background = df.Class.str.count("background").sum()
