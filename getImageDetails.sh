@@ -1,6 +1,4 @@
 #!/bin/sh
-
-
 echo "Executing the program..."
 
 echo "Path of the image:- "
@@ -25,5 +23,3 @@ alias python=python3
 echo "====================================================================================="
 echo "Running the program..."
 python ObjectDetection.py -i "$path"
-
-deactivate
